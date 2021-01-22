@@ -12,7 +12,9 @@ namespace GraphicalUserInterface.GUI
 {
     public class Gui
     {
+        protected RenderTexture _texture;
         protected Element _focusElement;
+        protected Sprite _sprite;
         protected FloatRect _size;
         public FloatRect Size { get => _size; set => _size = value; }
         public Vector2f Position
@@ -25,12 +27,12 @@ namespace GraphicalUserInterface.GUI
             }
         }
         public List<Element> Elements { get; set; }
-        private RenderTexture _texture;
-        protected Sprite _sprite;
+        public Color BackgroundColor { get; set; }
 
         public Gui()
         {
             Elements = new List<Element>();
+            BackgroundColor = Color.Transparent;
         }
 
         public Gui(FloatRect size) : this()
@@ -145,7 +147,7 @@ namespace GraphicalUserInterface.GUI
         }
         public void Draw(RenderTarget target)
         {
-            _texture.Clear(Color.Transparent);
+            _texture.Clear(BackgroundColor);
             foreach (Element elem in Elements)
             {
                 elem.Draw(_texture);
