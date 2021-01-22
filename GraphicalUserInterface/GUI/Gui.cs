@@ -26,6 +26,7 @@ namespace GraphicalUserInterface.GUI
                 _size.Top = value.Y;
             }
         }
+        public HAlignement HorizontalAligment { get; set; }
         public List<Element> Elements { get; set; }
         public Color BackgroundColor { get; set; }
 
@@ -46,6 +47,7 @@ namespace GraphicalUserInterface.GUI
         {
             Vector2f pos = start;
             Elements = new List<Element>();
+            float maxX = 0.0f;
             foreach (List<Element> line in display)
             {
                 pos.X = start.X;
@@ -53,10 +55,15 @@ namespace GraphicalUserInterface.GUI
                 {
                     elem.Position = pos;
                     Elements.Add(elem);
-                    pos.X += elem.GlobalBound.Left + elem.GlobalBound.Width + offset.X;
+                    pos.X = elem.GlobalBound.Left + elem.GlobalBound.Width + offset.X;
+                }
+                if (pos.X > maxX)
+                {
+                    maxX = pos.X;
                 }
                 pos.Y = Elements[^1].GlobalBound.Top + Elements[^1].GlobalBound.Height + offset.Y;
             }
+            _texture = new RenderTexture((uint)maxX, (uint)pos.Y);
         }
         public void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
@@ -157,6 +164,19 @@ namespace GraphicalUserInterface.GUI
             _texture.Display();
             _sprite = new Sprite(_texture.Texture);
             _sprite.Position = Position;
+            FloatRect spriteRect = _sprite.GetLocalBounds();
+            switch (HorizontalAligment)
+            {
+                case HAlignement.Left:
+                    _sprite.Origin = new Vector2f(0.0f, 0.0f);
+                    break;
+                case HAlignement.Right:
+                    _sprite.Origin = new Vector2f(spriteRect.Width, 0.0f);
+                    break;
+                case HAlignement.Center:
+                    _sprite.Origin = new Vector2f((spriteRect.Left + spriteRect.Width) / 2.0f, 0.0f);
+                    break;
+            }
             if (target != null)
             {
                 target.Draw(_sprite);
