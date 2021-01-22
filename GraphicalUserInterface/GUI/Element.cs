@@ -8,9 +8,37 @@ namespace GraphicalUserInterface.GUI
 {
     public abstract class Element
     {
-        public bool State { get; set; }
-        public bool IsEnabled { get; set; }
-        public bool IsFocus { get; set; }
+        protected static Font font = new Font(@"C:\Windows\Fonts\arial.ttf");
+        protected bool _state;
+        protected bool _enabled;
+        protected bool _focus;
+        public bool State 
+        { 
+            get => _state;
+            set 
+            {
+                _state = value;
+                Update();
+            }
+        }
+        public bool IsEnabled
+        {
+            get => _enabled;
+            set
+            {
+                _enabled = value;
+                Update();
+            }
+        }
+        public bool IsFocus
+        {
+            get => _focus;
+            set
+            {
+                _focus = value;
+                Update();
+            }
+        }
         public Color Background { get; set; }
         public Border Border { get; set; }
         public Vector2f Position { get; set; }
@@ -30,7 +58,7 @@ namespace GraphicalUserInterface.GUI
             };
             _text = new RenderTexture(25, 25);
         }
-        public virtual void Update()
+        protected virtual void Update()
         {
         }
 

@@ -14,8 +14,12 @@ namespace GraphicalUserInterface.GUI
             this.Update();
         }
 
-        public override void Update()
+        protected override void Update()
         {
+            if(_text == null)
+            {
+                return;
+            }
             _text.Clear(Color.Transparent);
             RectangleShape rectange = new RectangleShape(
                 new Vector2f(25.0f, 25.0f)

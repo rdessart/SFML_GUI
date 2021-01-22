@@ -42,7 +42,7 @@ namespace GraphicalUserInterface
                 if(elem.Clicked(new Vector2f(e.X, e.Y)))
                 {
                     elem.State = !elem.State;
-                    elem.Update();
+                    //elem.Update();
                     break;
                 }
             }
