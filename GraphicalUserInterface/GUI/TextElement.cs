@@ -9,8 +9,8 @@ namespace GraphicalUserInterface.GUI
 {
     public abstract class TextElement : Element
     {
+        protected bool _editable = false;
         protected static Font font = new Font(@"C:\Windows\Fonts\arial.ttf");
-
         protected string _content;
         protected uint _characterSize;
         protected Text _text;
@@ -19,8 +19,11 @@ namespace GraphicalUserInterface.GUI
         protected uint? _width;
         protected uint? _height;
        
-        public TextElement() : base() { }
-
+        public TextElement() : base()
+        {
+            _editable = false;
+        }
+        public bool IsEditable { get => _editable; }
         public Color TextColor
         {
             get => _textColor;
