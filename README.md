@@ -9,3 +9,4 @@ The following UI elements are available :
 * Checkbox
 * #### UI Text Element
   * Label
+  * TextInput
