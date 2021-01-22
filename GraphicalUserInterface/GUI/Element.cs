@@ -6,12 +6,24 @@ using System.Text;
 
 namespace GraphicalUserInterface.GUI
 {
+    public enum HAlignement
+    {
+        Left,
+        Right,
+        Center
+    }
     public abstract class Element
     {
+        protected FloatRect _rect;
+        protected Sprite _sprite;
+        protected RenderTexture _texture;
         protected static Font font = new Font(@"C:\Windows\Fonts\arial.ttf");
         protected bool _state;
         protected bool _enabled;
         protected bool _focus;
+        protected Vector2f _position;
+        protected Color _background;
+        public string Name { get; set; }
         public bool State 
         { 
             get => _state;
@@ -39,36 +51,55 @@ namespace GraphicalUserInterface.GUI
                 Update();
             }
         }
-        public Color Background { get; set; }
+        public Color Background { get => _background;
+            set
+            {
+                _background = value;
+                Update();
+            } 
+        }
         public Border Border { get; set; }
-        public Vector2f Position { get; set; }
-        protected FloatRect _rect;
-        protected Sprite _sprite;
-        protected RenderTexture _text;
-
+        public FloatRect LocalBound { 
+            get => _sprite.GetLocalBounds();
+        }
+        public FloatRect GlobalBound
+        {
+            get => _sprite.GetGlobalBounds();
+        }
+        public Vector2f Position { 
+            get => _position;
+            set 
+            {
+                _position = value;
+                if(_sprite != null)
+                {
+                    _sprite.Position = value;
+                }
+            }
+        }
         public Element()
         {
-            State = false;
-            IsEnabled = false;
-            IsFocus = false;
+            Name = "";
+            _state = false;
+            _enabled = false;
+            _focus = false;
             Border = new Border
             {
                 BorderColor = Color.White,
                 BorderThickness = 2,
             };
-            _text = new RenderTexture(25, 25);
+            _texture = new RenderTexture(25, 25);
         }
         protected virtual void Update()
         {
         }
-
         public bool Clicked(Vector2f MousePosition)
         {
-            return _rect.Contains(MousePosition.X, MousePosition.Y);
+            return GlobalBound.Contains(MousePosition.X, MousePosition.Y);
         }
-
         public void Draw(RenderTarget target)
         {
+            _sprite.Position = _position;
             target.Draw(_sprite, RenderStates.Default);
         }
     }
