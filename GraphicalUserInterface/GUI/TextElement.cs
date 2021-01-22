@@ -15,7 +15,10 @@ namespace GraphicalUserInterface.GUI
         protected uint _characterSize;
         protected Text _text;
         protected Color _textColor;
-
+        protected HAlignement _horizontalAlignement;
+        protected uint? _width;
+        protected uint? _height;
+       
         public TextElement() : base() { }
 
         public Color TextColor
@@ -42,6 +45,34 @@ namespace GraphicalUserInterface.GUI
             set
             {
                 _characterSize = value;
+                Update();
+            }
+        }
+
+        public HAlignement HorizontalAlignement
+        {
+            get => _horizontalAlignement;
+            set
+            {
+                _horizontalAlignement = value;
+                Update();
+            }
+        }
+        public uint? Width
+        {
+            get => _width;
+            set
+            {
+                _width = value;
+                Update();
+            }
+        }
+        public uint? Height
+        {
+            get => _height;
+            set
+            {
+                _height = value;
                 Update();
             }
         }

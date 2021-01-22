@@ -8,38 +8,6 @@ namespace GraphicalUserInterface.GUI
 {
     public class Label : TextElement
     {
-        
-        protected HAlignement _horizontalAlignement;
-        protected uint? _width;
-        protected uint? _height;
-        public uint? Width
-        {
-            get => _width;
-            set
-            {
-                _width = value;
-                Update();
-            }
-        }
-        public uint? Height
-        {
-            get => _height;
-            set
-            {
-                _height = value;
-                Update();
-            }
-        }
-        public HAlignement HorizontalAlignement
-        {
-            get => _horizontalAlignement;
-            set
-            {
-                _horizontalAlignement = value;
-                Update();
-            }
-        }
-
         public Label(string content) : base()
         {
             _content = content;
