@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GraphicalUserInterface.GUI
+namespace GraphicalUserInterface.GUI.Abstract
 {
     public enum HAlignement
     {

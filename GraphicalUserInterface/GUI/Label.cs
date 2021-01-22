@@ -1,8 +1,7 @@
-﻿using SFML.Graphics;
+﻿using GraphicalUserInterface.GUI.Abstract;
+using SFML.Graphics;
 using SFML.System;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GraphicalUserInterface.GUI
 {
