@@ -16,23 +16,22 @@ namespace GraphicalUserInterface.GUI
 
         protected override void Update()
         {
-            if(_text == null)
+            if(_texture == null)
             {
                 return;
             }
-            _text.Clear(Color.Transparent);
-            RectangleShape rectange = new RectangleShape(
-                new Vector2f(25.0f, 25.0f)
-                - new Vector2f(2.0f * Border.BorderThickness, 2.0f * Border.BorderThickness))
+            _texture.Clear(Color.Transparent);
+            RectangleShape rectange = new RectangleShape(new Vector2f(25.0f, 25.0f) - new Vector2f(2.0f * Border.BorderThickness, 
+                2.0f * Border.BorderThickness))
             {
                 Position = new Vector2f(Border.BorderThickness, Border.BorderThickness),
                 OutlineThickness = Border.BorderThickness,
                 OutlineColor = Border.BorderColor,
                 FillColor = State ? Background + new Color(0x50, 0x50, 0x50) : Background,
             };
-            _text.Draw(rectange, RenderStates.Default);
-            _text.Display();
-            _sprite = new Sprite(_text.Texture)
+            _texture.Draw(rectange, RenderStates.Default);
+            _texture.Display();
+            _sprite = new Sprite(_texture.Texture)
             {
                 Position = Position
             };
