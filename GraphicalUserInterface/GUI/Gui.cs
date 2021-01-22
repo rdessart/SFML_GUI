@@ -29,6 +29,8 @@ namespace GraphicalUserInterface.GUI
         public List<Element> Elements { get; set; }
         public Color BackgroundColor { get; set; }
 
+        public Sprite Sprite { get => _sprite; }
+
         public Gui()
         {
             Elements = new List<Element>();
@@ -145,7 +147,7 @@ namespace GraphicalUserInterface.GUI
                 }
             }
         }
-        public void Draw(RenderTarget target)
+        public void Draw(RenderTarget target = null)
         {
             _texture.Clear(BackgroundColor);
             foreach (Element elem in Elements)
@@ -155,7 +157,10 @@ namespace GraphicalUserInterface.GUI
             _texture.Display();
             _sprite = new Sprite(_texture.Texture);
             _sprite.Position = Position;
-            target.Draw(_sprite);
+            if (target != null)
+            {
+                target.Draw(_sprite);
+            }
         }
     }
 }
