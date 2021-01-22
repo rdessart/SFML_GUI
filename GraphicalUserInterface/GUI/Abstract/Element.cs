@@ -14,7 +14,10 @@ namespace GraphicalUserInterface.GUI.Abstract
     }
     public abstract class Element
     {
-        public float Scale { get; set; }
+        #region EVENT
+        public event EventHandler StatusChanged;
+        #endregion
+        #region PROTECTED ATTRIBUTES
         protected FloatRect _rect;
         protected Sprite _sprite;
         protected RenderTexture _texture;
@@ -23,6 +26,9 @@ namespace GraphicalUserInterface.GUI.Abstract
         protected bool _focus;
         protected Vector2f _position;
         protected Color _background;
+        #endregion
+        #region PUBLIC ATTRIBUTES
+        public float Scale { get; set; }
         public string Name { get; set; }
         public bool State 
         { 
@@ -30,7 +36,9 @@ namespace GraphicalUserInterface.GUI.Abstract
             set 
             {
                 _state = value;
+                OnStatusChanged();
                 Update();
+
             }
         }
         public bool IsEnabled
@@ -91,9 +99,15 @@ namespace GraphicalUserInterface.GUI.Abstract
             };
             _texture = new RenderTexture(25, 25);
         }
-        protected virtual void Update()
+        #endregion
+        #region PROTECTED METHODS
+        protected void OnStatusChanged()
         {
+            StatusChanged?.Invoke(this, EventArgs.Empty);
         }
+        protected abstract void Update();
+        #endregion
+        #region PUBLIC METHODS
         public bool Clicked(Vector2f MousePosition)
         {
             return GlobalBound.Contains(MousePosition.X, MousePosition.Y);
@@ -104,5 +118,6 @@ namespace GraphicalUserInterface.GUI.Abstract
             _sprite.Scale = new Vector2f(Scale, Scale);
             target.Draw(_sprite, RenderStates.Default);
         }
+        #endregion
     }
 }
