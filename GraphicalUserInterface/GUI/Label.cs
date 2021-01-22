@@ -6,12 +6,9 @@ using System.Text;
 
 namespace GraphicalUserInterface.GUI
 {
-    public class Label : Element
+    public class Label : TextElement
     {
-        protected string _content;
-        protected uint _characterSize;
-        protected Text _text;
-        protected Color _textColor;
+        
         protected HAlignement _horizontalAlignement;
         protected uint? _width;
         protected uint? _height;
@@ -42,32 +39,7 @@ namespace GraphicalUserInterface.GUI
                 Update();
             }
         }
-        public Color TextColor
-        {
-            get => _textColor;
-            set
-            {
-                _textColor = value;
-                Update();
-            }
-        }
-        public string Content {
-            get => _content;
-            set
-            {
-                _content = value;
-                Update();
-            }
-        }
-        public uint CharacterSize
-        {
-            get => _characterSize;
-            set
-            {
-                _characterSize = value;
-                Update();
-            }
-        }
+
         public Label(string content) : base()
         {
             _content = content;
@@ -81,7 +53,7 @@ namespace GraphicalUserInterface.GUI
             {
                 _text = new Text()
                 {
-                    Font = font
+                    Font = font,
                 };
             }
             _text.CharacterSize = _characterSize;

@@ -17,7 +17,6 @@ namespace GraphicalUserInterface.GUI
         protected FloatRect _rect;
         protected Sprite _sprite;
         protected RenderTexture _texture;
-        protected static Font font = new Font(@"C:\Windows\Fonts\arial.ttf");
         protected bool _state;
         protected bool _enabled;
         protected bool _focus;
