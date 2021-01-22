@@ -14,6 +14,7 @@ namespace GraphicalUserInterface.GUI
     }
     public abstract class Element
     {
+        public float Scale { get; set; }
         protected FloatRect _rect;
         protected Sprite _sprite;
         protected RenderTexture _texture;
@@ -78,6 +79,7 @@ namespace GraphicalUserInterface.GUI
         }
         public Element()
         {
+            Scale = 1.0f;
             Name = "";
             _state = false;
             _enabled = false;
@@ -99,6 +101,7 @@ namespace GraphicalUserInterface.GUI
         public void Draw(RenderTarget target)
         {
             _sprite.Position = _position;
+            _sprite.Scale = new Vector2f(Scale, Scale);
             target.Draw(_sprite, RenderStates.Default);
         }
     }
