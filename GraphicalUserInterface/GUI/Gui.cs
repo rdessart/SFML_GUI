@@ -69,6 +69,8 @@ namespace GraphicalUserInterface.GUI
                 pos.Y = Elements[^1].GlobalBound.Top + Elements[^1].GlobalBound.Height + offset.Y;
             }
             _texture = new RenderTexture((uint)maxX, (uint)(maxY));
+            _size.Height = (uint)maxY;
+            _size.Width = (uint)maxX;
         }
         public void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
