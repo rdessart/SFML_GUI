@@ -27,6 +27,11 @@ namespace GraphicalUserInterface.GUI
             _text.FillColor = _textColor;
             _text.DisplayedString = _content;
             FloatRect textSize = _text.GetLocalBounds();
+            if ((!_width.HasValue || _width.Value <= 0) && ((uint)Math.Ceiling(textSize.Width + textSize.Left) <= 0
+                || !_height.HasValue || _height.Value <= 0) && (uint)Math.Ceiling(textSize.Height + textSize.Top) <= 0)
+            {
+                return;
+            }
             _texture = new RenderTexture(
                 _width ?? (uint)Math.Ceiling(textSize.Width + textSize.Left),
                 _height ?? (uint)Math.Ceiling(textSize.Height + textSize.Top));

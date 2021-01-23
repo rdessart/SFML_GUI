@@ -48,6 +48,7 @@ namespace GraphicalUserInterface.GUI
             Vector2f pos = start;
             Elements = new List<Element>();
             float maxX = 0.0f;
+            float maxY = 0.0f;
             foreach (List<Element> line in display)
             {
                 pos.X = start.X;
@@ -56,6 +57,10 @@ namespace GraphicalUserInterface.GUI
                     elem.Position = pos;
                     Elements.Add(elem);
                     pos.X = elem.GlobalBound.Left + elem.GlobalBound.Width + offset.X;
+                    if(pos.Y + elem.GlobalBound.Height + offset.Y > maxY)
+                    {
+                        maxY = pos.Y + elem.GlobalBound.Height + offset.Y;
+                    }
                 }
                 if (pos.X > maxX)
                 {
@@ -63,7 +68,7 @@ namespace GraphicalUserInterface.GUI
                 }
                 pos.Y = Elements[^1].GlobalBound.Top + Elements[^1].GlobalBound.Height + offset.Y;
             }
-            _texture = new RenderTexture((uint)maxX, (uint)pos.Y);
+            _texture = new RenderTexture((uint)maxX, (uint)(maxY));
         }
         public void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {

@@ -26,10 +26,16 @@ namespace GraphicalUserInterface.GUI.Abstract
         protected bool _focus;
         protected Vector2f _position;
         protected Color _background;
+        protected string _name;
         #endregion
         #region PUBLIC ATTRIBUTES
         public float Scale { get; set; }
-        public string Name { get; set; }
+        public string Name { 
+            get => _name;
+            set {
+                _name = value;
+                }
+        }
         public bool State 
         { 
             get => _state;
@@ -67,12 +73,26 @@ namespace GraphicalUserInterface.GUI.Abstract
             } 
         }
         public Border Border { get; set; }
-        public FloatRect LocalBound { 
-            get => _sprite.GetLocalBounds();
+        public FloatRect LocalBound {
+            get
+            {
+                if (_sprite is null)
+                {
+                    return new FloatRect(_position.X, _position.Y, 0.0f, 0.0f);
+                }
+                return _sprite.GetLocalBounds();
+            }
         }
         public FloatRect GlobalBound
         {
-            get => _sprite.GetGlobalBounds();
+            get 
+            {
+                if (_sprite is null)
+                {
+                    return new FloatRect(_position.X, _position.Y, 0.0f, 0.0f);
+                }
+                return _sprite.GetGlobalBounds();
+            }
         }
         public Vector2f Position { 
             get => _position;
@@ -88,7 +108,7 @@ namespace GraphicalUserInterface.GUI.Abstract
         public Element()
         {
             Scale = 1.0f;
-            Name = "";
+            //Name = "";
             _state = false;
             _enabled = false;
             _focus = false;
@@ -114,9 +134,12 @@ namespace GraphicalUserInterface.GUI.Abstract
         }
         public void Draw(RenderTarget target)
         {
-            _sprite.Position = _position;
-            _sprite.Scale = new Vector2f(Scale, Scale);
-            target.Draw(_sprite, RenderStates.Default);
+            if (_sprite != null)
+            {
+                _sprite.Position = _position;
+                _sprite.Scale = new Vector2f(Scale, Scale);
+                target.Draw(_sprite, RenderStates.Default);
+            }
         }
         #endregion
     }
