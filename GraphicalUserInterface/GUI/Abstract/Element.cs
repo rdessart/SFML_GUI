@@ -108,7 +108,7 @@ namespace GraphicalUserInterface.GUI.Abstract
         public Element()
         {
             Scale = 1.0f;
-            //Name = "";
+            Name = "";
             _state = false;
             _enabled = false;
             _focus = false;
