@@ -10,20 +10,43 @@ using System.Threading.Tasks;
 
 namespace GraphicalUserInterface.GUI
 {
-    public class Gui
+    public class Gui : Display
     {
-        protected RenderTexture _texture;
+        //protected Window _window;
+        //protected RenderTarget _parent;
+        //protected RenderTexture _texture;
+        //protected Sprite _sprite;
         protected Element _focusElement;
-        protected Sprite _sprite;
-        protected FloatRect _size;
-        public FloatRect Size { get => _size; set => _size = value; }
+        //protected FloatRect _size;
+        public FloatRect Size
+        {
+            get
+            {
+                if (_sprite != null)
+                {
+                    return _sprite.GetGlobalBounds();
+                }
+                return new FloatRect()
+                {
+                    Left = _position.X,
+                    Top = _position.Y,
+                    Width = _size.X,
+                    Height = _size.Y
+                };
+            }
+            set
+            {
+                _position = new Vector2f(value.Left, value.Top);
+                _size = new Vector2f(value.Width, value.Height);
+            }
+        }
         public Vector2f Position
         {
             get => new Vector2f(Size.Left, Size.Top);
             set
             {
-                _size.Left = value.X;
-                _size.Top = value.Y;
+                _size.X = value.X;
+                _size.Y = value.Y;
             }
         }
         public HAlignement HorizontalAligment { get; set; }
@@ -31,7 +54,19 @@ namespace GraphicalUserInterface.GUI
         public Color BackgroundColor { get; set; }
 
         public Sprite Sprite { get => _sprite; }
-
+        public Window Window { 
+            get => _window;
+            set
+            {
+                if (_window != null)
+                {
+                    _window = value;
+                    _window.MouseButtonPressed += OnMouseButtonPressed;
+                    _window.KeyPressed += OnKeyPressed;
+                }
+            }
+        }
+        
         public Gui()
         {
             Elements = new List<Element>();
@@ -69,16 +104,20 @@ namespace GraphicalUserInterface.GUI
                 pos.Y = Elements[^1].GlobalBound.Top + Elements[^1].GlobalBound.Height + offset.Y;
             }
             _texture = new RenderTexture((uint)maxX, (uint)(maxY));
-            _size.Height = (uint)maxY;
-            _size.Width = (uint)maxX;
+            _size.X = (uint)maxX;
+            _size.Y = (uint)maxY;
         }
         public void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if(!_size.Contains(e.X, e.Y))
+            //if(!_size.Contains(e.X, e.Y))
+            //{
+            //    return;
+            //}
+            if(_sprite == null || _sprite.GetGlobalBounds().Contains(e.X, e.Y))
             {
                 return;
             }
-            Vector2f mousePos = new Vector2f(e.X - _size.Left, e.Y - _size.Top);
+            Vector2f mousePos = new Vector2f(e.X - _position.X, e.Y - _position.Y);
             if (e.Button == Mouse.Button.Left)
             {
                 _focusElement = null;
@@ -170,7 +209,7 @@ namespace GraphicalUserInterface.GUI
             }
             _texture.Display();
             _sprite = new Sprite(_texture.Texture);
-            _sprite.Position = Position;
+            _sprite.Position = _position;
             FloatRect spriteRect = _sprite.GetLocalBounds();
             switch (HorizontalAligment)
             {
@@ -184,7 +223,11 @@ namespace GraphicalUserInterface.GUI
                     _sprite.Origin = new Vector2f((spriteRect.Left + spriteRect.Width) / 2.0f, 0.0f);
                     break;
             }
-            if (target != null)
+            if(Parent != null)
+            {
+                Parent.Draw(_sprite);
+            }
+            else if (target != null)
             {
                 target.Draw(_sprite);
             }
