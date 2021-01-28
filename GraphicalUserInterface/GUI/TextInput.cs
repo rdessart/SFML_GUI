@@ -45,7 +45,7 @@ namespace GraphicalUserInterface.GUI
                 _width ?? (uint)Math.Ceiling(textSize.Width + textSize.Left),
                 _height ?? (uint)Math.Ceiling(textSize.Height + textSize.Top));
 
-            switch (HorizontalAlignement)
+            switch (HorizontalAlignment)
             {
                 case HAlignement.Center:
                     _text.Origin = new Vector2f(textSize.Width / 2.0f, textSize.Height / 2.0f);

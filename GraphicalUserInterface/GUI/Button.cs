@@ -48,7 +48,7 @@ namespace GraphicalUserInterface.GUI
             _texture = new RenderTexture(
                 _width ?? (uint)Math.Ceiling(textSize.Width + textSize.Left + (Border.BorderThickness * 2.0f)),
                 _height ?? (uint)Math.Ceiling(textSize.Height + textSize.Top + (Border.BorderThickness * 2.0f)));
-            switch (HorizontalAlignement)
+            switch (HorizontalAlignment)
             {
                 case HAlignement.Center:
                     _text.Origin = new Vector2f(textSize.Width / 2.0f, textSize.Height / 2.0f);
@@ -59,10 +59,20 @@ namespace GraphicalUserInterface.GUI
                     _text.Position = new Vector2f(Border.BorderThickness, (_texture.Size.Y / 2.0f) - (Border.BorderThickness * 2.0f));
                     break;
             }
-            _rectangleShape.Position = new Vector2f(Border.BorderThickness, Border.BorderThickness);
-            _rectangleShape.Size = new Vector2f((float)_texture.Size.X - (Border.BorderThickness * 2.0f), (float)_texture.Size.Y - (Border.BorderThickness * 2.0f));
             _texture.Clear(Color.Transparent);
-            _texture.Draw(_rectangleShape);
+            if (Border != null)
+            {
+                if(_rectangleShape == null)
+                {
+                    _rectangleShape = new RectangleShape();
+                }
+                _rectangleShape.FillColor = _state ? Color.White : new Color(0xB3, 0xB3, 0xB3);
+                _rectangleShape.OutlineColor = Border.BorderColor;
+                _rectangleShape.OutlineThickness = Border.BorderThickness;
+                _rectangleShape.Position = new Vector2f(Border.BorderThickness, Border.BorderThickness);
+                _rectangleShape.Size = new Vector2f((float)_texture.Size.X - (Border.BorderThickness * 2.0f), (float)_texture.Size.Y - (Border.BorderThickness * 2.0f));
+                _texture.Draw(_rectangleShape);
+            }
             _texture.Draw(_text);
             _texture.Display();
             _sprite = new Sprite(_texture.Texture) { Position = Position };

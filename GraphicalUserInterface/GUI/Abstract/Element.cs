@@ -27,6 +27,8 @@ namespace GraphicalUserInterface.GUI.Abstract
         protected Vector2f _position;
         protected Color _background;
         protected string _name;
+        protected Border _border;
+        public HAlignement HorizontalAlignment { get; set; }
         #endregion
         #region PUBLIC ATTRIBUTES
         public float Scale { get; set; }
@@ -65,14 +67,23 @@ namespace GraphicalUserInterface.GUI.Abstract
                 Update();
             }
         }
-        public Color Background { get => _background;
+        public Color Background { 
+            get => _background;
             set
             {
                 _background = value;
                 Update();
             } 
         }
-        public Border Border { get; set; }
+        public Border Border 
+        { 
+            get => _border;
+            set
+            {
+                _border = value;
+                Update();
+            } 
+        }
         public FloatRect LocalBound {
             get
             {
@@ -134,12 +145,23 @@ namespace GraphicalUserInterface.GUI.Abstract
         }
         public void Draw(RenderTarget target)
         {
-            if (_sprite != null)
+
+            if (_sprite == null)
             {
-                _sprite.Position = _position;
-                _sprite.Scale = new Vector2f(Scale, Scale);
-                target.Draw(_sprite, RenderStates.Default);
+                return;
             }
+            FloatRect rect = _sprite.GetLocalBounds();
+            if (HorizontalAlignment == HAlignement.Center)
+            {
+                _sprite.Origin = new Vector2f((rect.Left + rect.Width) / 2.0f, 0.0f);
+            }
+            else if (HorizontalAlignment == HAlignement.Left)
+            {
+                _sprite.Origin = new Vector2f(0.0f, 0.0f);
+            }
+            _sprite.Position = _position;
+            _sprite.Scale = new Vector2f(Scale, Scale);
+            target.Draw(_sprite, RenderStates.Default);
         }
         #endregion
     }

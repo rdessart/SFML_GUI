@@ -9,9 +9,11 @@ namespace GraphicalUserInterface.GUI
     {
         public Label(string content) : base()
         {
+            _state = false;
             _content = content;
             _textColor = Color.Black;
             _characterSize = 15;
+            _border = null;
             Update();
         }
         protected override void Update()
@@ -32,22 +34,34 @@ namespace GraphicalUserInterface.GUI
             {
                 return;
             }
-            _texture = new RenderTexture(
-                _width ?? (uint)Math.Ceiling(textSize.Width + textSize.Left),
-                _height ?? (uint)Math.Ceiling(textSize.Height + textSize.Top));
 
-            switch (HorizontalAlignement)
+            int borderThickness = Border != null ? (int)Border.BorderThickness : 0;
+
+            _texture = new RenderTexture(
+                _width ?? (uint)Math.Ceiling(textSize.Width + textSize.Left + 2),
+                _height ?? (uint)Math.Ceiling(textSize.Height + textSize.Top + 2));
+            _texture.Clear(_state ? Background : Color.Transparent);
+            if (_border != null)
+            {
+                RectangleShape border = new RectangleShape(new Vector2f((float)(_texture.Size.X - borderThickness * 2.0f), (float)(_texture.Size.Y - (borderThickness * 2.0f))))
+                {
+                    OutlineColor = _border.BorderColor,
+                    OutlineThickness = _border.BorderThickness,
+                    FillColor = Color.Transparent
+                };
+                _texture.Draw(border);
+            }
+            switch (HorizontalAlignment)
             {
                 case HAlignement.Center:
                     _text.Origin = new Vector2f(textSize.Width / 2.0f, (textSize.Height + textSize.Top) / 2.0f);
-                    _text.Position = new Vector2f(_texture.Size.X / 2.0f, _texture.Size.Y / 2.0f);
+                    _text.Position = new Vector2f(_texture.Size.X / 2.0f, (_texture.Size.Y / 2.0f) - (borderThickness * 2.0f));
                     break;
                 default:
                     _text.Origin = new Vector2f(0.0f, (textSize.Height + textSize.Top) / 2.0f);
-                    _text.Position = new Vector2f(0.0f, _texture.Size.Y / 2.0f);
+                    _text.Position = new Vector2f(borderThickness, (_texture.Size.Y / 2.0f) - (borderThickness * 2.0f));
                     break;
             }
-            _texture.Clear(Background);
             _texture.Draw(_text);
             _texture.Display();
             _sprite = new Sprite(_texture.Texture) { Position = Position };

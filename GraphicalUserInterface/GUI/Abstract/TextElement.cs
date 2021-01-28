@@ -10,7 +10,6 @@ namespace GraphicalUserInterface.GUI.Abstract
         protected uint _characterSize;
         protected Text _text;
         protected Color _textColor;
-        protected HAlignement _horizontalAlignement;
         protected uint? _width;
         protected uint? _height;
        
@@ -43,16 +42,6 @@ namespace GraphicalUserInterface.GUI.Abstract
             set
             {
                 _characterSize = value;
-                Update();
-            }
-        }
-
-        public HAlignement HorizontalAlignement
-        {
-            get => _horizontalAlignement;
-            set
-            {
-                _horizontalAlignement = value;
                 Update();
             }
         }
